@@ -6,6 +6,8 @@ const gameBoard = (function() {
 
     const getBoard = () => board;
 
+    const setBoard = (newBoard) => board = newBoard;
+
     const checkCellAvailability = (row, column) => {
         if (getBoard()[+row][+column] === "") {
             return true;
@@ -18,7 +20,7 @@ const gameBoard = (function() {
     
 
     return {
-        getBoard, checkCellAvailability
+        getBoard, checkCellAvailability, setBoard    
     }
 
 })();
@@ -55,6 +57,16 @@ const displayController = function()  {
     const playButton = document.querySelector(".play");
     const resetButton = document.querySelector(".reset"); 
 
+    resetButton.addEventListener("click", () => {
+        gameFlow.reset();
+    }) 
+        
+    
+
+    const cells = document.querySelectorAll(".cell");
+
+    const getCells = () => cells;
+
     playButton.addEventListener("click", (e) => {
         playGame = true;
     })
@@ -76,21 +88,22 @@ const displayController = function()  {
                 e.target.textContent = "O"; 
             }
             players.setPlayerTurn(!players.getPlayerTurn());
-            console.log(gameFlow.checkForWin());
+            console.log(gameFlow.checkForWin(gameBoard.getBoard()));
 
             
         }
     })
-
+    return {
+        getCells
+    }
 
 }();
 
 
 const gameFlow = function() {
 
-    let board = gameBoard.getBoard();
 
-    const checkForWin = () => {
+    const checkForWin = (board) => {
         if (board[0][0] === "X" && board[0][1] === "X" && board[0][2] === "X" ||
             board[1][0] === "X" && board[1][1] === "X" && board[1][2] === "X" ||
             board[2][0] === "X" && board[2][1] === "X" && board[2][2] === "X" ||
@@ -121,9 +134,10 @@ const gameFlow = function() {
     }
     
     const reset = () => {
-        board = [["","",""],["","",""],["","",""]];
-
+        gameBoard.setBoard([["","",""],["","",""],["","",""]]);
+        displayController.getCells().forEach((element) => element.textContent = "");
+        players.setPlayerTurn(true);
     }
-    return {checkForWin};
+    return {checkForWin, reset};
 }();
 
