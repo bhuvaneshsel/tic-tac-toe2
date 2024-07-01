@@ -18,6 +18,7 @@ const gameBoard = () => {
             return false;
         }
     }
+
     const cell = () => {
         let value = "-";
 
@@ -50,4 +51,22 @@ function players(playerOneName = "Player One", playerTwoName = "Player Two") {
     return {
         playerOne, playerTwo
     };
+}
+
+const displayController = () => {
+    const container = document.querySelector(".container");
+    const 
+
+    container.addEventListener("click", (e) => {
+        const row = e.target.classList[0].split("-")[1];
+        const column = e.target.classList[1].split("-")[1];
+        if (gameBoard.checkCellAvailability(row, column)) {
+        }
+    })
+}
+
+displayController();
+
+const gameFlow = () => {
+
 }
